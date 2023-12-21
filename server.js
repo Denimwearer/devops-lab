@@ -8,7 +8,7 @@ app.use(express.static(__dirname));
 // include and initialize the rollbar library with your access token
 var Rollbar = require("rollbar");
 var rollbar = new Rollbar({
-  accessToken: "bbc3d484dbea41f2bbae1e4e1418ec45",
+  accessToken: "162e1e1fb26d42fb9ea35b969ccb2c68",
   captureUncaught: true,
   captureUnhandledRejections: true,
 });
