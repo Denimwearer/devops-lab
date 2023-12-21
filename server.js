@@ -5,18 +5,32 @@ const path = require("path");
 app.use(express.json());
 app.use(express.static(__dirname));
 
-const cars = ["GT-R Nismo", "S63 AMG", "ALPINA B8", "NSX"];
+// include and initialize the rollbar library with your access token
+var Rollbar = require("rollbar");
+var rollbar = new Rollbar({
+  accessToken: "bbc3d484dbea41f2bbae1e4e1418ec45",
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+});
+
+// record a generic message and send it to Rollbar
+rollbar.log("Hello world!");
+
+const cars = ["GT-R Nismo", "S63 AMG", "ALPINA B8", "NSX-R"];
 
 app.get("/", (req, res) => {
+  rollbar.info("User accessed the site.");
   res.sendFile(path.join(__dirname, "/index.html"));
 });
 
 app.get("/api/cars", (req, res) => {
+  rollbar.warning("User is accessing cars infomation! Uh-oh!");
   res.status(200).send(cars);
 });
 
 app.post("/api/cars", (req, res) => {
   let { name } = req.body;
+  rollbar.critical(`THERE IS AN IMPOSTER AMONG US!! THEIR NAME IS ${name}`);
   const index = cars.findIndex((car) => {
     return car === name;
   });
